@@ -19,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.application.apis.AuthApi;
-import com.example.application.config.JwtUtil;
 import com.example.application.enums.Role;
-import com.example.application.exchanges.UserResponse;
 import com.example.application.exchanges.authExchanges.LoginRequest;
 import com.example.application.exchanges.authExchanges.LoginResponse;
-import com.example.application.exchanges.authExchanges.RegisterResponse;
 import com.example.application.exchanges.authExchanges.RegisterUserRequest;
+import com.example.application.exchanges.userExchanges.UserResponse;
 import com.example.application.models.UserEntity;
 import com.example.application.repositories.UserRepository;
+import com.example.application.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/auth")
@@ -53,8 +52,16 @@ public class AuthController implements AuthApi {
 
     userEntity.setHolderName(registerRequest.getHolderName());
     userEntity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-    userEntity.setRoles(Collections.singleton(Role.USER));
+
+    if (registerRequest.isAdmin()) {
+      userEntity.setRoles(Collections.singleton(Role.ADMIN));
+    } else {
+      userEntity.setRoles(Collections.singleton(Role.USER));
+    }
+
     userEntity.setCreatedAt(dateTime);
+    userEntity.setBalance(1000);  //joining initial money
+    userEntity.setBookings(new ArrayList<>());
 
     UserEntity savedUser = userRepository.save(userEntity);
     UserResponse userResponse = modelMapper.map(savedUser, UserResponse.class);

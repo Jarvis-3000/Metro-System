@@ -3,6 +3,7 @@ package com.example.application.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -44,11 +45,27 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests((authorize) -> {
           authorize
+              // authentications
               .requestMatchers("/auth/**").permitAll()
+              // stations
+              .requestMatchers(HttpMethod.POST, "/stations").hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.DELETE, "/stations").hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.GET, "/stations/**").permitAll()
+              // users
+              .requestMatchers("/users/**").hasAuthority("ADMIN")
+              // bookings
+              .requestMatchers("/book").hasAnyAuthority("ADMIN", "USER")
+              .requestMatchers("/book/**").hasAnyAuthority("ADMIN", "USER")
+              // booking-history
+              .requestMatchers("/booking-history").hasAuthority("ADMIN")
+              .requestMatchers("/booking-history/user/**").hasAnyAuthority("ADMIN", "USER")
+              // fare
+              .requestMatchers("/fare").permitAll()
+              //
               .anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
 
-    // http.authenticationProvider(authenticationProvider());
+    http.authenticationProvider(authenticationProvider());
 
     // Add JWT token filter
     http.addFilterBefore(

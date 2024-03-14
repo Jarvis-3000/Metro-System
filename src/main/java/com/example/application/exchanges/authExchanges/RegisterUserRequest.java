@@ -9,4 +9,6 @@ public class RegisterUserRequest {
   private String holderName;
   @NotBlank
   private String password;
+
+  private boolean admin;
 }
