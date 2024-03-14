@@ -8,4 +8,8 @@ import com.example.application.models.UserEntity;
 
 public interface UserRepository extends MongoRepository<UserEntity, String> {
   Optional<UserEntity> findByMetroCardNumber(String metroCardNumber);
+
+  boolean existsByMetroCardNumber(String metroCardNumber);
+
+  void deleteByMetroCardNumber(String metroCardNumber);
 }

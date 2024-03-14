@@ -1,8 +1,10 @@
-package com.example.application.config;
+package com.example.application.utils;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.example.application.config.SecurityConstants;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

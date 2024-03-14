@@ -11,10 +11,13 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.application.utils.JwtUtil;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -60,6 +63,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+    // Store the metroCardNumber in the session for later usages
+    HttpSession session = request.getSession();
+    session.setAttribute("metroCardNumber", metroCardNumber);
 
     filterChain.doFilter(request, response);
   }
