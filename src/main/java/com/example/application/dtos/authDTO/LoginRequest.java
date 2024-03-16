@@ -1,4 +1,4 @@
-package com.example.application.exchanges.authExchanges;
+package com.example.application.dtos.authDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

@@ -14,6 +14,8 @@ import com.example.application.services.interfaces.BalanceServices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/balance")
@@ -24,10 +26,10 @@ public class BalanceController {
   @Autowired
   private BalanceServices balanceServices;
 
-
   @PutMapping
   public ResponseEntity<String> add(HttpServletRequest request,
-      @RequestParam Double money) {
+      @Valid @Min(value = 0, message = "Amount must be positive") @RequestParam(required = true) Double money) {
+
     HttpSession session = request.getSession();
     String metroCardNumber = (String) session.getAttribute("metroCardNumber");
 

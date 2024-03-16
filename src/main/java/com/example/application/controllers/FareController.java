@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.application.services.interfaces.FareCalculator;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/fare")
 public class FareController {
@@ -18,14 +20,10 @@ public class FareController {
   private FareCalculator fareCalculator;
 
   @GetMapping
-  public ResponseEntity<Double> getFare(@RequestParam String originStationId,
-      @RequestParam String destinationStationId) {
-    try {
-      Double fare = fareCalculator.calculate(originStationId,
-          destinationStationId);
-      return new ResponseEntity<>(fare, HttpStatus.OK);
-    } catch (ResponseStatusException e) {
-      return new ResponseEntity<>(e.getStatusCode());
-    }
+  public ResponseEntity<Double> getFare(
+      @Valid @RequestParam(required = true) String originStationId,
+      @Valid @RequestParam(required = true) String destinationStationId) {
+    Double fare = fareCalculator.calculate(originStationId, destinationStationId);
+    return new ResponseEntity<>(fare, HttpStatus.OK);
   }
 }

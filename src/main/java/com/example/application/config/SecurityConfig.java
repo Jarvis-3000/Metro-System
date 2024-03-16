@@ -49,7 +49,7 @@ public class SecurityConfig {
               .requestMatchers("/auth/**").permitAll()
               // stations
               .requestMatchers(HttpMethod.POST, "/stations").hasAuthority("ADMIN")
-              .requestMatchers(HttpMethod.DELETE, "/stations").hasAuthority("ADMIN")
+              .requestMatchers(HttpMethod.DELETE, "/stations/**").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.GET, "/stations/**").permitAll()
               // users
               .requestMatchers("/users/**").hasAuthority("ADMIN")
@@ -57,8 +57,8 @@ public class SecurityConfig {
               .requestMatchers("/book").hasAnyAuthority("ADMIN", "USER")
               .requestMatchers("/book/**").hasAnyAuthority("ADMIN", "USER")
               // booking-history
-              .requestMatchers("/booking-history").hasAuthority("ADMIN")
-              .requestMatchers("/booking-history/user/**").hasAnyAuthority("ADMIN", "USER")
+              .requestMatchers("/booking-history/all").hasAuthority("ADMIN")
+              .requestMatchers("/booking-history/**").hasAnyAuthority("ADMIN", "USER")
               // fare
               .requestMatchers("/fare").permitAll()
               //

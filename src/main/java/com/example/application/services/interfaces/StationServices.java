@@ -1,10 +1,10 @@
 package com.example.application.services.interfaces;
 
-import com.example.application.exchanges.stationExchanges.AddStationRequest;
 import java.util.List;
 
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.application.dtos.stationDTO.AddStationRequest;
 import com.example.application.models.Station;
 
 public interface StationServices {
