@@ -8,21 +8,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.application.dtos.bookingDTO.BookingRequest;
 import com.example.application.enums.BookingStatus;
 import com.example.application.exceptions.InsufficientBalanceException;
-import com.example.application.exchanges.bookingExchanges.BookingRequest;
 import com.example.application.models.Booking;
 import com.example.application.models.Station;
 import com.example.application.models.UserEntity;
 import com.example.application.repositories.BookingRepository;
-import com.example.application.repositories.UserRepository;
 import com.example.application.services.interfaces.BalanceServices;
 import com.example.application.services.interfaces.BookingServices;
 import com.example.application.services.interfaces.FareCalculator;
 import com.example.application.services.interfaces.StationServices;
+import com.example.application.services.interfaces.UserServices;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -30,7 +29,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class BookingServicesImpl implements BookingServices {
   @Autowired
-  private UserRepository userRepository;
+  private UserServices userServices;
 
   @Autowired
   private StationServices stationServices;
@@ -43,29 +42,6 @@ public class BookingServicesImpl implements BookingServices {
 
   @Autowired
   private BalanceServices balanceServices;
-
-  @Override
-  public List<Booking> findAllBookings() {
-    return bookingRepository.findAll();
-  }
-
-  @Override
-  public List<Booking> findAllUserBookings(String metroCardNumber) {
-    return bookingRepository.findByUserMetroCardNumber(metroCardNumber);
-  }
-
-  @Override
-  public Booking findById(String metroCardNumber, String id) {
-    Booking booking = bookingRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-    // booking id must be associated with the current logged in user
-    if (booking.getUser().getMetroCardNumber() != metroCardNumber) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-
-    return booking;
-  }
 
   @Override
   // @Transactional
@@ -81,7 +57,7 @@ public class BookingServicesImpl implements BookingServices {
       // fetch the entities from database through services
       Station originStation = stationServices.findById(originStationId);
       Station destinationStation = stationServices.findById(destinationStationId);
-      UserEntity userEntity = userRepository.findByMetroCardNumber(metroCardNumber).get();
+      UserEntity userEntity = userServices.findByMetroCardNumber(metroCardNumber);
 
       // calculate fare
       double fare = fareCalculator.calculate(originStationId, destinationStationId);
@@ -98,7 +74,7 @@ public class BookingServicesImpl implements BookingServices {
 
       // save the booking in the associated user repository
       userEntity.getBookings().add(savedBooking);
-      userRepository.save(userEntity);
+      userServices.save(userEntity);
 
       return savedBooking;
     } catch (ResponseStatusException e) {
@@ -107,7 +83,7 @@ public class BookingServicesImpl implements BookingServices {
       throw e;
     } catch (Exception e) {
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 
@@ -116,11 +92,17 @@ public class BookingServicesImpl implements BookingServices {
   public Booking cancelById(String metroCardNumber, String id) throws ResponseStatusException {
     try {
       Booking booking = bookingRepository.findById(id)
-          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found by provided id"));
+
+      if (booking.getBookingStatus().equals(BookingStatus.CANCELLED)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Booking is already cancelled");
+      }
 
       // booking id must be associated with the current logged in user
+      // When a user attempts to access data of another user without proper
+      // authorization
       if (!booking.getUser().getMetroCardNumber().equals(metroCardNumber)) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
       }
 
       // update the booking status to cancelled
@@ -143,14 +125,14 @@ public class BookingServicesImpl implements BookingServices {
       updatedUser.recharge(booking.getFare());
 
       // update the user in repository with updated boking
-      userRepository.save(updatedUser);
+      userServices.save(updatedUser);
 
       return updatedBooking;
     } catch (ResponseStatusException e) {
       throw e;
     } catch (Exception e) {
       log.error(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
   }
 

@@ -1,4 +1,4 @@
-package com.example.application.exchanges.authExchanges;
+package com.example.application.dtos.authDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
