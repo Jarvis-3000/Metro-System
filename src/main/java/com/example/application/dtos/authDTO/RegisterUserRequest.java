@@ -2,9 +2,13 @@ package com.example.application.dtos.authDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterUserRequest {
   @NotBlank(message = "Holder name is manadatory for registration")
   private String holderName;

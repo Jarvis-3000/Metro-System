@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.application.models.UserEntity;
 import com.example.application.repositories.UserRepository;
 import com.example.application.services.interfaces.BalanceServices;
+import com.example.application.services.interfaces.UserServices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +22,7 @@ import jakarta.validation.constraints.Min;
 @RequestMapping("/balance")
 public class BalanceController {
   @Autowired
-  private UserRepository userRepository;
+  private UserServices userServices;
 
   @Autowired
   private BalanceServices balanceServices;
@@ -33,10 +34,10 @@ public class BalanceController {
     HttpSession session = request.getSession();
     String metroCardNumber = (String) session.getAttribute("metroCardNumber");
 
-    UserEntity user = userRepository.findByMetroCardNumber(metroCardNumber).get();
+    UserEntity user = userServices.findByMetroCardNumber(metroCardNumber);
     balanceServices.addMoney(user, money);
 
-    userRepository.save(user);
+    userServices.save(user);
 
     return new ResponseEntity<>("Successfully balance recharged", HttpStatus.ACCEPTED);
   }
