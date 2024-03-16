@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.application.dtos.authDTO.RegisterUserRequest;
 import com.example.application.enums.Role;
-import com.example.application.exceptions.InsufficientBalanceException;
 import com.example.application.models.UserEntity;
 import com.example.application.repositories.UserRepository;
 import com.example.application.services.interfaces.UserServices;

@@ -40,6 +40,9 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.23.4'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.11.2'
 }
 
 tasks.named('test') {
