@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.application.apis.ProfileApi;
 import com.example.application.dtos.userDTO.UserDTO;
 import com.example.application.models.UserEntity;
 import com.example.application.services.interfaces.UserServices;
@@ -18,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController implements ProfileApi{
   @Autowired
   private UserServices userServices;
 

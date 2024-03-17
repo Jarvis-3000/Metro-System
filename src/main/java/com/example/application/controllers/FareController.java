@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.application.apis.FareApi;
 import com.example.application.services.interfaces.FareCalculator;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/fare")
-public class FareController {
+public class FareController implements FareApi{
   @Autowired
   private FareCalculator fareCalculator;
 

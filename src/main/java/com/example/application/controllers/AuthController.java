@@ -67,24 +67,19 @@ public class AuthController implements AuthApi {
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest,
       HttpServletRequest request) {
-    try {
-      Authentication authentication = authenticationManager
-          .authenticate(
-              new UsernamePasswordAuthenticationToken(loginRequest.getMetroCardNumber(), loginRequest.getPassword()));
+    Authentication authentication = authenticationManager
+        .authenticate(
+            new UsernamePasswordAuthenticationToken(loginRequest.getMetroCardNumber(), loginRequest.getPassword()));
 
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-      String message = "User login successfull";
-      String token = jwtUtil.generateToken(authentication);
+    String message = "User login successfull";
+    String token = jwtUtil.generateToken(authentication);
 
-      // Store use details in the session for later usages
-      storeUserInSession(request, loginRequest);
+    // Store use details in the session for later usages
+    storeUserInSession(request, loginRequest);
 
-      return new ResponseEntity<>(new LoginResponse(message, token), HttpStatus.CREATED);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    return new ResponseEntity<>(new LoginResponse(message, token), HttpStatus.CREATED);
   }
 
   private void storeUserInSession(HttpServletRequest request, LoginRequest loginRequest) {

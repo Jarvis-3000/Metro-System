@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.application.apis.UserApi;
 import com.example.application.dtos.userDTO.UserDTO;
 import com.example.application.models.UserEntity;
 import com.example.application.services.interfaces.UserServices;
@@ -21,7 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController implements UserApi{
   @Autowired
   private UserServices userServices;
 

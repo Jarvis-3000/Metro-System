@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.application.apis.BookingHistoryApi;
 import com.example.application.dtos.bookingDTO.BookingDTO;
 import com.example.application.enums.BookingStatus;
 import com.example.application.models.Booking;
@@ -24,7 +25,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/booking-history")
-public class BookingHistoryController {
+public class BookingHistoryController implements BookingHistoryApi {
   @Autowired
   private BookingHistoryServices bookingHistoryServices;
 

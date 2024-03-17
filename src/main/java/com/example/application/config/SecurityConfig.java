@@ -47,6 +47,9 @@ public class SecurityConfig {
           authorize
               // authentications
               .requestMatchers("/auth/**").permitAll()
+              // swagger3 api documentation
+              .requestMatchers("/swagger-ui/**").permitAll()
+              .requestMatchers("/v3/api-docs/**").permitAll()
               // stations
               .requestMatchers(HttpMethod.POST, "/stations").hasAuthority("ADMIN")
               .requestMatchers(HttpMethod.DELETE, "/stations/**").hasAuthority("ADMIN")

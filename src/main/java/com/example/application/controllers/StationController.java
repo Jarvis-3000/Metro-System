@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.example.application.apis.StationApi;
 import com.example.application.dtos.stationDTO.AddStationRequest;
 import com.example.application.models.Station;
 import com.example.application.services.interfaces.StationServices;
@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/stations")
 @Validated // Ensure method-level validation is enabled
-public class StationController {
+public class StationController implements StationApi{
   @Autowired
   private StationServices stationServices;
 
