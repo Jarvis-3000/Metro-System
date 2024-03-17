@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.application.apis.BalanceApi;
 import com.example.application.models.UserEntity;
 import com.example.application.services.interfaces.BalanceServices;
 import com.example.application.services.interfaces.UserServices;
@@ -20,7 +21,7 @@ import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/balance")
-public class BalanceController {
+public class BalanceController implements BalanceApi{
   @Autowired
   private UserServices userServices;
 

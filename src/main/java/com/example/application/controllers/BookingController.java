@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.application.dtos.bookingDTO.BookingRequest;
+import com.example.application.apis.BookingApi;
 import com.example.application.dtos.bookingDTO.BookingDTO;
-import com.example.application.exceptions.InsufficientBalanceException;
 import com.example.application.models.Booking;
 import com.example.application.services.interfaces.BookingServices;
 import com.example.application.utils.Mappers.BookingDTOMapper;
@@ -24,7 +23,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/book")
-public class BookingController {
+public class BookingController implements BookingApi{
   @Autowired
   private BookingServices bookingServices;
 
