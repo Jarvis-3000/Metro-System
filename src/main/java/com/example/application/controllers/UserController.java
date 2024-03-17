@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,16 +25,13 @@ public class UserController {
   @Autowired
   private UserServices userServices;
 
-  @Autowired
-  private UserDTOMapper userDTOMapper;
-
   @GetMapping
   public ResponseEntity<List<UserDTO>> getAll() {
     List<UserEntity> userEntities = userServices.findAll();
 
     List<UserDTO> users = userEntities
         .stream()
-        .map(user -> userDTOMapper.map(user))
+        .map(user -> UserDTOMapper.map(user))
         .collect((Collectors.toList()));
 
     return new ResponseEntity<>(users, HttpStatus.OK);
@@ -44,7 +40,7 @@ public class UserController {
   @GetMapping("/{metroCardNumber}")
   public ResponseEntity<UserDTO> getByMetroCardNumber(@Valid @PathVariable String metroCardNumber) {
     UserEntity userEntity = userServices.findByMetroCardNumber(metroCardNumber);
-    UserDTO user = userDTOMapper.map(userEntity);
+    UserDTO user = UserDTOMapper.map(userEntity);
 
     return new ResponseEntity<>(user, HttpStatus.OK);
   }

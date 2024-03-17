@@ -28,9 +28,6 @@ public class BookingController {
   @Autowired
   private BookingServices bookingServices;
 
-  @Autowired
-  private BookingDTOMapper bookingDTOMapper;
-
   @PostMapping
   public ResponseEntity<?> book(@Valid @RequestBody BookingRequest bookingRequest,
       HttpServletRequest request) {
@@ -40,7 +37,7 @@ public class BookingController {
 
     Booking booking = bookingServices.book(metroCardNumber, bookingRequest);
 
-    BookingDTO bookingDTO = bookingDTOMapper.map(booking);
+    BookingDTO bookingDTO = BookingDTOMapper.map(booking);
 
     return new ResponseEntity<>(bookingDTO, HttpStatus.CREATED);
   }
@@ -54,7 +51,7 @@ public class BookingController {
 
     Booking booking = bookingServices.cancelById(metroCardNumber, id);
 
-    BookingDTO bookingDTO = bookingDTOMapper.map(booking);
+    BookingDTO bookingDTO = BookingDTOMapper.map(booking);
 
     return new ResponseEntity<>(bookingDTO, HttpStatus.OK);
 
