@@ -1,4 +1,4 @@
-package com.example.application.exceptionHandler;
+package com.example.application.ControllerAdvice;
 
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
@@ -15,9 +15,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.application.dtos.errorDTO.ErrorResponse;
 import com.example.application.exceptions.InsufficientBalanceException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
+// Catch exceptions across the application and respond to client just like RestCOntroller
+// instead it is not sending REST data but Error Response
 @ControllerAdvice
-public class ApplicationExceptionHandler {
+public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorResponse> handleMethodArgumentException(MethodArgumentNotValidException ex) {
@@ -66,7 +69,7 @@ public class ApplicationExceptionHandler {
     // Create a map to hold the error message
     Map<String, String> errorMap = new HashMap<>();
 
-    errorMap.put("error", "" + ex.getMessage());
+    errorMap.put("error", "Invalid Date Time format. Must be (yyyy-MM-dd'T'HH:mm:ss)");
 
     // Create the error response with detailed error message and status code
     ErrorResponse errorResponse = new ErrorResponse(errorMap, HttpStatus.BAD_REQUEST);
@@ -78,6 +81,7 @@ public class ApplicationExceptionHandler {
   public ResponseEntity<ErrorResponse> handleException(Exception ex) {
     // Create a map to hold the error message
     Map<String, String> errorMap = new HashMap<>();
+
     errorMap.put("error", ex.getMessage()); // Extract the exception message
 
     // Create the error response with detailed error message and status code

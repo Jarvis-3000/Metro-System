@@ -74,7 +74,7 @@ public class BookingServicesTest {
     LocalDateTime dateTime = LocalDateTime.now();
     double fare = 10.0;
 
-    BookingRequest bookingRequest = new BookingRequest(originStationId, destinationStationId, dateTime);
+    BookingRequest bookingRequest = new BookingRequest(originStationId, destinationStationId, dateTime.toString());
     Station originStation = new Station(originStationId, "Origin Station");
     Station destinationStation = new Station(destinationStationId, "Destination Station");
 

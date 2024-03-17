@@ -53,6 +53,8 @@ public class SecurityConfig {
               .requestMatchers(HttpMethod.GET, "/stations/**").permitAll()
               // users
               .requestMatchers("/users/**").hasAuthority("ADMIN")
+              // user profile
+              .requestMatchers("/profile/**").hasAnyAuthority("ADMIN", "USER")
               // bookings
               .requestMatchers("/book").hasAnyAuthority("ADMIN", "USER")
               .requestMatchers("/book/**").hasAnyAuthority("ADMIN", "USER")

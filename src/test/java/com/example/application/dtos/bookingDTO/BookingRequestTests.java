@@ -31,7 +31,7 @@ public class BookingRequestTests {
     BookingRequest bookingRequest = new BookingRequest();
     bookingRequest.setOriginStationId("Station001");
     bookingRequest.setDestinationStationId("Station002");
-    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1));
+    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1).toString());
 
     // When
     Set<ConstraintViolation<BookingRequest>> violations = validator.validate(bookingRequest);
@@ -47,7 +47,7 @@ public class BookingRequestTests {
     BookingRequest bookingRequest = new BookingRequest();
     bookingRequest.setOriginStationId("");
     bookingRequest.setDestinationStationId("Station002");
-    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1));
+    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1).toString());
 
     // When
     Set<ConstraintViolation<BookingRequest>> violations = validator.validate(bookingRequest);
@@ -64,7 +64,7 @@ public class BookingRequestTests {
     BookingRequest bookingRequest = new BookingRequest();
     bookingRequest.setOriginStationId("Station001");
     bookingRequest.setDestinationStationId("");
-    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1));
+    bookingRequest.setDateTime(LocalDateTime.now().plusHours(1).toString());
 
     // When
     Set<ConstraintViolation<BookingRequest>> violations = validator.validate(bookingRequest);
@@ -98,7 +98,7 @@ public class BookingRequestTests {
     BookingRequest bookingRequest = new BookingRequest();
     bookingRequest.setOriginStationId("Station001");
     bookingRequest.setDestinationStationId("Station002");
-    bookingRequest.setDateTime(LocalDateTime.now().minusHours(1));
+    bookingRequest.setDateTime(LocalDateTime.now().minusHours(1).toString());
 
     // When
     Set<ConstraintViolation<BookingRequest>> violations = validator.validate(bookingRequest);

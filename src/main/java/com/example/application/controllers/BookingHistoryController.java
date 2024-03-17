@@ -16,7 +16,6 @@ import com.example.application.dtos.bookingDTO.BookingDTO;
 import com.example.application.enums.BookingStatus;
 import com.example.application.models.Booking;
 import com.example.application.services.interfaces.BookingHistoryServices;
-import com.example.application.services.interfaces.BookingServices;
 import com.example.application.utils.Mappers.BookingDTOMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +27,6 @@ import jakarta.validation.Valid;
 public class BookingHistoryController {
   @Autowired
   private BookingHistoryServices bookingHistoryServices;
-
-  @Autowired
-  private BookingDTOMapper bookingDTOMapper;
 
   @GetMapping("/all")
   public ResponseEntity<List<BookingDTO>> getAllBookings(@RequestParam(required = false) String metroCardNumber,
@@ -55,7 +51,7 @@ public class BookingHistoryController {
 
     List<BookingDTO> allBookingDTOs = bookings
         .stream()
-        .map((booking) -> bookingDTOMapper.map(booking))
+        .map((booking) -> BookingDTOMapper.map(booking))
         .collect(Collectors.toList());
 
     return new ResponseEntity<>(allBookingDTOs, HttpStatus.OK);
@@ -85,7 +81,7 @@ public class BookingHistoryController {
 
     List<BookingDTO> filteredBookingDTOs = bookings
         .stream()
-        .map((booking) -> bookingDTOMapper.map(booking))
+        .map((booking) -> BookingDTOMapper.map(booking))
         .collect(Collectors.toList());
 
     return new ResponseEntity<>(filteredBookingDTOs, HttpStatus.OK);
@@ -107,7 +103,7 @@ public class BookingHistoryController {
       }
     }
 
-    BookingDTO bookingDTO = bookingDTOMapper.map(booking);
+    BookingDTO bookingDTO = BookingDTOMapper.map(booking);
 
     return new ResponseEntity<>(bookingDTO, HttpStatus.OK);
   }
