@@ -73,7 +73,7 @@
 # API Documentation
 
 > The API documentation is available using Swagger UI.
-> Access the API documentation at http://localhost:8082/swagger-ui/index.html
+> Run the application and then access the API documentation at http://localhost:8082/swagger-ui/index.html
 
 # Security
 
