@@ -6,7 +6,7 @@
 
 # Metro Rail Ticket Booking System
 
-> The Metro Rail Ticket Booking System is a personal project and web application designed to facilitate ticket booking for metro rail services. It provides a platform for users to register, book tickets, view booking history, and manage their account balance.
+> The Metro Rail Ticket Booking System is a personal project and web backend application designed to facilitate ticket booking for metro rail services. It provides backend/REST APIs for users to register, book tickets, view booking history, and manage their account balance.
 
 # Table of Contents
 
@@ -21,7 +21,7 @@
 
 # Introduction
 
-> This is a personal project that built while learning Backend in java. This project is trying to mock Metro System and provide REST APIs. Using this APIs one can build a Frontend Application.
+> This is a personal project that I built while learning Backend in java. This project is trying to mock Metro System and provide REST APIs. Using this APIs one can build a Frontend Application.
 
 # Features
 
